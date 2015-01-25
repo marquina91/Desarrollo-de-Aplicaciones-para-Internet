@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>${title}</title>
+	<link rel="stylesheet" href="/css/styletemple.css" type="text/css">
+	%if grafica:
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="http://code.highcharts.com/modules/exporting.js"></script>	
+		<script type="text/javascript">
+			$(function () {
+				$('#container').highcharts({
+					chart: {
+						type: 'column',
+						margin: 75,
+						options3d: {
+							enabled: true,
+							alpha: 10,
+							beta: 25,
+							depth: 70
+						}
+					},
+					title: {
+						text: '3D chart with null values'
+					},
+					subtitle: {
+						text: 'Notice the difference between a 0 value and a null point'
+					},
+					plotOptions: {
+						column: {
+							depth: 25
+						}
+					},
+					xAxis: {
+						categories: Highcharts.getOptions().lang.shortMonths
+					},
+					yAxis: {
+						opposite: true
+					},
+					series: [{
+						name: 'Anio ${grafica[12]}',
+						data: [${grafica[0]}, ${grafica[1]}, ${grafica[2]}, ${grafica[3]}, ${grafica[4]}, ${grafica[5]}, ${grafica[6]}, ${grafica[7]}, ${grafica[8]}, ${grafica[9]},${grafica[10]},${grafica[11]}]
+					}]
+				});
+			});
+		</script>
+	%else:
+		%if mapa:
+			<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+			<meta charset="utf-8">
+			<style>
+			  html, body, #map-canvas {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			  }
+			</style>
+			<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+			<script>
+				// Note: This example requires that you consent to location sharing when
+				// prompted by your browser. If you see a blank space instead of the map, this
+				// is probably because you have denied permission for location sharing.
+
+				var map;
+
+				function initialize() {
+				  var mapOptions = {
+					zoom: 18,
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				  };
+				  map = new google.maps.Map(document.getElementById('map-canvas'),
+					  mapOptions);
+					  
+				  var trafficLayer = new google.maps.TrafficLayer();
+				  trafficLayer.setMap(map);
+
+				  // Try HTML5 geolocation
+				  if(navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(function(position) {
+					  var pos = new google.maps.LatLng(position.coords.latitude,
+													   position.coords.longitude);
+
+					  var infowindow = new google.maps.InfoWindow({
+						map: map,
+						position: pos,
+						content: 'Location found using HTML5.'
+					  });
+
+					  map.setCenter(pos);
+					}, function() {
+					  handleNoGeolocation(true);
+					});
+				  } else {
+					// Browser doesn't support Geolocation
+					handleNoGeolocation(false);
+				  }
+				}
+				
+
+				function handleNoGeolocation(errorFlag) {
+				  if (errorFlag) {
+					var content = 'Error: The Geolocation service failed.';
+				  } else {
+					var content = 'Error: Your browser doesn\'t support geolocation.';
+				  }
+
+				  var options = {
+					map: map,
+					position: new google.maps.LatLng(60, 105),
+					content: content
+				  };
+
+				  var infowindow = new google.maps.InfoWindow(options);
+				  map.setCenter(options.position);
+				}
+
+				google.maps.event.addDomListener(window, 'load', initialize);
+			</script>
+		%else:
+			%if twittter:
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			%elif mashup:
+				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+				<script src="http://code.highcharts.com/highcharts.js"></script>
+				<script src="http://code.highcharts.com/modules/exporting.js"></script>	
+				<script type="text/javascript">
+				$(document).ready(function() {
+					$('#div-btn1').click(function(){
+						alert( "Generando grafica de la semana" );
+						$('#container2').highcharts({
+							chart: {
+								type: 'column',
+								margin: 75,
+								options3d: {
+									enabled: true,
+									alpha: 10,
+									beta: 25,
+									depth: 70
+								}
+							},
+							title: {
+								text: 'Grafica con el numero de tweets twitteados con la palabra "${mashupdata[0]}" '
+							},
+							subtitle: {
+								text: 'Muestra la semana actual'
+							},
+							plotOptions: {
+								column: {
+									depth: 25
+								}
+							},
+							xAxis: {
+								categories: ['${mashupdata[3]}-${mashupdata[4]}', '${mashupdata[6]}-${mashupdata[7]}', '${mashupdata[9]}-${mashupdata[10]}', '${mashupdata[12]}-${mashupdata[13]}', '${mashupdata[15]}-${mashupdata[16]}', '${mashupdata[18]}-${mashupdata[19]}','${mashupdata[21]}-${mashupdata[22]}']
+							},
+							yAxis: {
+								opposite: true
+							},
+							series: [{
+								name: 'Mes ${mashupdata[2]} , semana del ${mashupdata[3]} al ${mashupdata[21]}',
+								data: [${mashupdata[5]}, ${mashupdata[8]}, ${mashupdata[11]}, ${mashupdata[14]}, ${mashupdata[17]}, ${mashupdata[20]}, ${mashupdata[23]}]
+							}]
+						});
+					});
+					});
+				</script>					
+			%endif
+		%endif
+	%endif
+</head>
+<body>
+	%if mapa:
+		<div id="map-canvas"></div>
+	%else:
+		<div id="page">
+			<div id="header">
+				<div id="motto">
+					<a href="/" class="sitename"><img src="imagenes/blakletterpress.png" height="24" width="142" alt="SiteName"></a>
+					<p>
+						<img src="imagenes/header-text.png" height="14" width="218" alt="Text">
+					</p>
+				</div>
+				<div id="logo">
+					<a href="/"><img src="imagenes/logo.png" alt="LOGO"></a>
+				</div>
+			</div>
+			<div id="main">
+				<div id="gallery">
+					%if nombre:
+						%if modif:
+							%if form:
+								<form action="/modificar" method="POST">
+									${form.render()}
+								</form>
+							%endif
+						%else:
+							<p> Bienvenido, <a href="#" >${nombre} </a></p>
+							<p><a href="/logout"> Cerrar sesion </a></p>
+							%if grafica1:
+								<form action="/grafica" method="POST">
+									${form.render()}
+								</form>
+							%else:
+								%if twitter1:
+									<form action="/twitter" method="POST">
+										${form.render()}
+									</form>
+								%elif mashup1:
+									<form action="/mashup" method="POST">
+										${form.render()}
+									</form>
+								%endif
+							%endif
+						%endif						
+					%else:
+						%if regis:
+							<form action="/registro" method="POST">
+								${form.render()}
+							</form>
+						%else:
+							%if form:
+								<form action="/login" method="POST">
+									${form.render()}
+								</form>
+							%endif
+						%endif
+					%endif
+				</div>
+				<div class="body">
+					<h1>Patilla deFree Website Templates usada para la practica de <em>${asignatura}</em>.</h1>
+					%if noticias:
+						<h2>Ultimas NOTICIAS (RSS de EL PAIS)</h2>
+						%for i in range(noticias.tam):
+							<a href="${noticias.noticiasenlaces[i]}"> ${noticias.noticiastitulo[i]}</a>
+							<br>
+						%endfor
+					%endif
+					%if grafica:
+						<div id="container" style="height: 400px"></div>
+					%else:
+						%if twitter:
+							<br>
+							<br>
+							<br>
+							<h1>últimos 10 tweets de "${twitterdata.clave}"</h1>
+							%for i in range(twitterdata.tamanio):
+								<article>
+									<h3>Usuario: ${twitterdata.autor[i]}</h1>
+									<h6>creado el ${twitterdata.fecha[i]}</h2>
+									<p>${twitterdata.texto[i]}</p>
+								</article>
+								<br>
+							%endfor							
+							<a class="twitter-timeline" href="https://twitter.com/hashtag/etsiit" data-widget-id="554075092674949120">Tweets sobre #etsiit</a>
+						%elif mashup:
+							<input type="button" id="div-btn1" value="Ver Mashup"/>
+							<div id="container2" style="height: 400px"></div>
+						%endif
+					%endif
+				</div>
+			</div>
+			<div id="sidebar">
+				<div id="navigation">
+					<div>
+						<ul>
+							%if nombre:
+								<li>
+									<a href="/modificar">Modificar</a>
+								</li>
+								<li>
+									<a href="/rss">Noticias</a>
+								</li>
+								<li>
+									<a href="/grafica">Grafica</a>
+								</li>
+								<li>
+									<a href="/mapa">Mapa</a>
+								</li>
+								<li>
+									<a href="/twitter">Twitter</a>
+								</li>
+								<li>
+									<a href="/mashup">Mashup</a>
+								</li>
+							%else:
+								<li class="selected">
+									<a href="/registro">Registrar</a>
+								</li>			
+							%endif							
+						</ul>
+					</div>
+				</div>
+				<div class="section">
+					<div id="connect">
+						<h2>Contactame:</h2>
+						<a href="https://twitter.com/_marky__" class="twitter-follow-button" data-show-count="true">Follow</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+					</div>
+				</div>
+			</div>
+		</div>
+	%endif
+</body>
+</html>

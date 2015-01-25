@@ -1,0 +1,27 @@
+<!Fichero style.css>
+
+		#container{
+			margin: auto;	
+			margin-top:10px;
+			width: 1200px; 
+			display:block;
+			background-color: rgb(20,20,255);
+		}
+		#container h1{
+			background-color: rgb(200,250,250);
+			display:inline;
+			padding:5px;
+		}
+		#container p{
+			font-size:10px;
+			margin:5px;
+			font: Helvetica;
+			color: #707070;
+			display: inline;
+		}
+
+
+
+
+
+

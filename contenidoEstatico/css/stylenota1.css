@@ -1,0 +1,17 @@
+/*<!Fichero style.css>  /*tocar todos los html   las secciones para poner  correctamente*/
+
+/***************************************NOTICIAS  DERECHA*******************************************************************************/
+		#anuncio1{
+				margin:center;
+				clear:both;
+				-webkit-background-size: 100% 100%;
+				-o-background-size: 100% 100%;		
+				background-size: 100% 100%;						
+				background-repeat: no-repeat;	
+				-moz-background-size: 100% 100%;
+				background-position	:center center;			
+				height:340px;
+				width: 340px;
+				margin-top:20px;
+				cursor:pointer;
+		}
